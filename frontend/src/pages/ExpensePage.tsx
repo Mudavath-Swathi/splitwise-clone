@@ -39,7 +39,7 @@ export default function ExpensePage() {
 
   useEffect(() => {
     fetchExpense();
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
     newSocket.emit('join_expense', id);
     newSocket.on('receive_message', (data: any) => {
       setComments(prev => [...prev, data]);
