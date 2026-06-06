@@ -257,7 +257,7 @@ export default function ExpensePage() {
                   </div>
                 )}
                 {comments.map((comment, idx) => {
-                  const isMe = comment.user_id === user?.id;
+                  const isMe = Number(comment.user_id) === Number(user?.id);
                   return (
                     <div key={idx} style={{ display: 'flex', gap: '8px', flexDirection: isMe ? 'row-reverse' : 'row', alignItems: 'flex-end' }}>
                       {!isMe && (
