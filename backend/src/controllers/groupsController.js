@@ -25,18 +25,24 @@ const createGroup = async (req, res) => {
   }
 };
 
+
 // GET MY GROUPS
 const getMyGroups = async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT g.*, 
         COUNT(DISTINCT gm.user_id) as member_count,
-        COALESCE(SUM(CASE WHEN es.user_id = $1 AND es.is_settled = false THEN -es.amount ELSE 0 END), 0) +
-        COALESCE(SUM(CASE WHEN e.paid_by = $1 AND es.user_id != $1 AND es.is_settled = false THEN es.amount ELSE 0 END), 0) as my_balance
+        COALESCE((
+          SELECT 
+            SUM(CASE WHEN e2.paid_by = $1 AND es2.user_id != $1 THEN es2.amount ELSE 0 END) -
+            SUM(CASE WHEN e2.paid_by != $1 AND es2.user_id = $1 THEN es2.amount ELSE 0 END)
+          FROM expenses e2
+          JOIN expense_splits es2 ON e2.id = es2.expense_id
+          WHERE e2.group_id = g.id 
+          AND es2.is_settled = false
+        ), 0) as my_balance
        FROM groups g
        JOIN group_members gm ON g.id = gm.group_id
-       LEFT JOIN expenses e ON e.group_id = g.id
-       LEFT JOIN expense_splits es ON es.expense_id = e.id
        WHERE g.id IN (SELECT group_id FROM group_members WHERE user_id = $1)
        GROUP BY g.id
        ORDER BY g.created_at DESC`,

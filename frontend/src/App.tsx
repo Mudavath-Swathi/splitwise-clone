@@ -13,7 +13,15 @@ import Balances from './pages/Balances';
 import Profile from './pages/Profile';
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) return <div style={{ 
+    display: 'flex', alignItems: 'center', 
+    justifyContent: 'center', height: '100vh',
+    fontFamily: 'Inter, sans-serif', color: '#16a34a',
+    fontSize: '16px', fontWeight: '600'
+  }}>Loading...</div>;
+  
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 };
 

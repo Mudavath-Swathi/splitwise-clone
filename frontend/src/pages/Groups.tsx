@@ -162,7 +162,7 @@ export default function Groups() {
                           fontSize: '11px', fontWeight: '600', marginTop: '2px',
                           color: bal > 0 ? '#16a34a' : '#ef4444'
                         }}>
-                          {bal > 0 ? `You are owed ₹${bal.toFixed(2)}` : `You owe ₹${Math.abs(bal).toFixed(2)}`}
+                          {bal > 0 ? `You are owed ₹${bal.toFixed(2)}` : `You owe ₹${(-bal).toFixed(2)}`}
                         </div>
                       )}
                     </div>
@@ -172,7 +172,7 @@ export default function Groups() {
                       fontSize: '15px', fontWeight: '800',
                       color: bal >= 0 ? '#16a34a' : '#ef4444'
                     }}>
-                      {bal >= 0 ? '+' : ''}₹{bal.toFixed(2)}
+                      {bal > 0 ? `+₹${bal.toFixed(2)}` : `-₹${(-bal).toFixed(2)}`}
                     </span>
                     <ChevronRight size={16} color="#cbd5e1" />
                   </div>

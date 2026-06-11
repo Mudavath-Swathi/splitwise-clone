@@ -472,6 +472,7 @@ export default function GroupPage() {
               <select value={expPaidBy} onChange={e => setExpPaidBy(e.target.value)} style={{ ...inp, marginBottom: '14px' }}>
                 {members.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
               </select>
+              
               <label style={{ fontSize: '12px', fontWeight: '600', color: '#374151', display: 'block', marginBottom: '8px' }}>Split type</label>
               <div style={{ display: 'flex', gap: '6px', marginBottom: '14px', flexWrap: 'wrap' }}>
                 {['equal', 'unequal', 'percentage', 'shares'].map(type => (
